@@ -1,1 +1,0 @@
-This is Assignemnt Project, and related to price tracking of the products.
