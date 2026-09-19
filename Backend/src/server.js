@@ -1,6 +1,8 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
@@ -16,6 +18,11 @@ app.get("/", (req, res) => {
         message: "ProductPulse API is running 🚀"
     });
 });
+
+app.head("/",(req,res)=>{
+    res.status(200).send();
+})
+
 
 // Start server
 app.listen(PORT, () => {

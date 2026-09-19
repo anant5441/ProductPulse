@@ -6,18 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "scrape": "node debug/scrape.js",
+    "debug:scrape": "node debug/scrape.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
+    "cheerio": "^1.2.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.0",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "p-retry": "^7.1.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "playwright": "^1.63.0"
   }
 }
