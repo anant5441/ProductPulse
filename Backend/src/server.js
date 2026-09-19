@@ -1,30 +1,28 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
+import app from "./app.js";
+import ENV from "./config/env.js";
+import logger from "./utils/logger.js";
 
-dotenv.config();
+const PORT = ENV.PORT;
 
-const app = express();
+const server = app.listen(PORT, () => {
+    logger.info(`ProductPulse Server running on http://localhost:${PORT}`);
+    logger.info(`Health check: http://localhost:${PORT}/api/health`);
+});
 
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Test route
-app.get("/", (req, res) => {
-    res.json({
-        message: "ProductPulse API is running 🚀"
+// Graceful shutdown handling
+process.on("SIGTERM", () => {
+    logger.info("SIGTERM signal received: closing HTTP server");
+    server.close(() => {
+        logger.info("HTTP server closed");
     });
 });
 
-app.head("/",(req,res)=>{
-    res.status(200).send();
-})
-
-
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+process.on("SIGINT", () => {
+    logger.info("SIGINT signal received: closing HTTP server");
+    server.close(() => {
+        logger.info("HTTP server closed");
+        process.exit(0);
+    });
 });
+
+export default server;
