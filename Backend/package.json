@@ -7,19 +7,26 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "test:api": "node test-api.js",
     "scrape": "node debug/scrape.js",
-    "debug:scrape": "node debug/scrape.js"
+    "debug:scrape": "node debug/scrape.js",
+    "scheduler:run": "node Scheduler/run.js",
+    "db:sync": "node scripts/sync-products.js",
+    "test:products": "node scripts/test-products.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@supabase/supabase-js": "^2.109.0",
     "cheerio": "^1.2.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.0",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
     "p-retry": "^7.1.1",
+    "ws": "^8.21.3",
     "zod": "^4.6.5"
   },
   "devDependencies": {

@@ -1,2 +1,8 @@
 .env
 /node_modules
+.env.example
+all_products.json
+all_prices.json
+price_*.json
+prices.json
+scraped-product.json
