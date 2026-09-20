@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import NotificationBell from './NotificationBell';
 
 export default function Topbar({ title, onOpenMobile, showTrackButton = true }) {
   return (
@@ -16,15 +17,19 @@ export default function Topbar({ title, onOpenMobile, showTrackButton = true }) 
         <h1 className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight">{title}</h1>
       </div>
 
-      {showTrackButton && (
-        <Link
-          to="/products"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#6C3BFF] hover:bg-[#5829e6] text-white text-xs sm:text-sm font-medium rounded-md shadow-xs transition-colors"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>Track product</span>
-        </Link>
-      )}
+      <div className="flex items-center gap-3">
+        <NotificationBell />
+
+        {showTrackButton && (
+          <Link
+            to="/products"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#6C3BFF] hover:bg-[#5829e6] text-white text-xs sm:text-sm font-medium rounded-md shadow-xs transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Track product</span>
+          </Link>
+        )}
+      </div>
     </header>
   );
 }

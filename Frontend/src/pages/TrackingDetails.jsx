@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, RefreshCw, Trash2, LineChart, Table, Terminal, ExternalLink } from 'lucide-react';
+import { ArrowLeft, RefreshCw, Trash2, LineChart, Table, Terminal, ExternalLink, Bell } from 'lucide-react';
 import { historyApi, scrapeApi, trackingApi } from '../api/client';
 import { formatCurrency, formatDateTime, formatRelativeTime, getStockInfo } from '../utils/format';
 import PriceChart from '../components/PriceChart';
 import ObservationsTable from '../components/ObservationsTable';
 import ScrapeLogTable from '../components/ScrapeLogTable';
+import AlertSettings from '../components/AlertSettings';
 import Modal from '../components/Modal';
 import { useToast } from '../context/ToastContext';
 
@@ -270,6 +271,18 @@ export default function TrackingDetails() {
         </button>
 
         <button
+          onClick={() => setActiveTab('alerts')}
+          className={`pb-3 flex items-center gap-2 border-b-2 transition-colors ${
+            activeTab === 'alerts'
+              ? 'border-[#6C3BFF] text-[#6C3BFF]'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <Bell className="w-4 h-4" />
+          <span>Alerts & Notifications</span>
+        </button>
+
+        <button
           onClick={() => setActiveTab('observations')}
           className={`pb-3 flex items-center gap-2 border-b-2 transition-colors ${
             activeTab === 'observations'
@@ -309,6 +322,12 @@ export default function TrackingDetails() {
               </div>
               <PriceChart data={priceHistory} />
             </div>
+          </div>
+        )}
+
+        {activeTab === 'alerts' && (
+          <div className="space-y-6">
+            <AlertSettings trackingId={trackingId} />
           </div>
         )}
 

@@ -52,6 +52,11 @@ export const trackingApi = {
       body: JSON.stringify({ productId, scrapeIntervalMinutes }),
     }),
   untrack: (trackingId) => request(`/tracked-products/${trackingId}`, { method: 'DELETE' }),
+  update: (trackingId, data) =>
+    request(`/tracked-products/${trackingId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
 };
 
 export const historyApi = {
