@@ -71,7 +71,9 @@ export default function NotificationBell() {
     }
     setIsOpen(false);
     if (notif.trackedProductId) {
-      navigate(`/tracking/${notif.trackedProductId}`);
+      navigate(`/tracked/${notif.trackedProductId}`);
+    } else if (notif.product?.id) {
+      navigate(`/products/${notif.product.id}`);
     }
   };
 

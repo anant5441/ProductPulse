@@ -44,6 +44,14 @@ export default function App() {
               </Layout>
             }
           />
+          <Route
+            path="/tracking/:trackingId"
+            element={
+              <Layout title="Tracking Details" showTrackButton={false}>
+                <TrackingDetails />
+              </Layout>
+            }
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
