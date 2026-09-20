@@ -42,6 +42,7 @@ export const productsApi = {
   },
   search: (q) => request(`/products/search?q=${encodeURIComponent(q)}`),
   getById: (id) => request(`/products/${id}`),
+  syncCatalog: () => request('/products/sync', { method: 'POST' }, 60000),
 };
 
 export const trackingApi = {

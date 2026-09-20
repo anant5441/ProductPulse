@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, Plus, Check, ChevronLeft, ChevronRight, Package, ArrowUpRight } from 'lucide-react';
+import { Search, Plus, Check, ChevronLeft, ChevronRight, Package, ArrowUpRight, RefreshCw } from 'lucide-react';
 import { productsApi, trackingApi } from '../api/client';
 import { useToast } from '../context/ToastContext';
 
@@ -18,6 +18,7 @@ export default function Products() {
   const [trackingLoading, setTrackingLoading] = useState({});
   const [pageInfo, setPageInfo] = useState({ page: 1, pages: 1, total: 0 });
   const [loading, setLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [error, setError] = useState(null);
 
   const { showToast } = useToast();
@@ -122,14 +123,43 @@ export default function Products() {
     }
   };
 
+  // Sync full store catalog action
+  const handleSyncCatalog = async () => {
+    if (isSyncing) return;
+    setIsSyncing(true);
+    try {
+      const res = await productsApi.syncCatalog();
+      showToast(`Catalog synchronized: ${res.totalProducts || 1000} products verified.`, 'success');
+      loadProducts(queryParam, categoryParam, pageParam);
+      loadTrackedStatus();
+    } catch (err) {
+      showToast(err.message || 'Failed to sync catalog.', 'error');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h2 className="text-xl font-bold text-slate-900 tracking-tight">Product Catalog</h2>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Browse the INE storefront catalog and select products to monitor.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Product Catalog</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Browse the full 1,000 product storefront catalog and select items to monitor.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleSyncCatalog}
+          disabled={isSyncing}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-md shadow-xs transition-colors disabled:opacity-60 cursor-pointer self-start sm:self-auto"
+          title="Sync full catalog from INE Store API"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-[#6C3BFF]' : 'text-slate-500'}`} />
+          <span>{isSyncing ? 'Syncing Catalog (1,000)...' : 'Sync Catalog'}</span>
+        </button>
       </div>
 
       {/* Search & Category Filter Bar */}
