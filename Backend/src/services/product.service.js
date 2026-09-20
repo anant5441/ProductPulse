@@ -6,9 +6,6 @@ import { fetchProduct } from "../../Scraper/product.js";
 import { buildProductUrl } from "../utils/normalize.js";
 import logger from "../utils/logger.js";
 
-/**
- * Loads cached catalog items from all_products.json if available
- */
 export function getCachedStoreCatalog() {
     try {
         const filePath = path.resolve(process.cwd(), "all_products.json");
