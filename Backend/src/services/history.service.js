@@ -126,7 +126,7 @@ export const historyService = {
     async getTrackedStatus(trackedProductId) {
         const { data: tracker, error: trackErr } = await supabase
             .from("tracked_products")
-            .select("*")
+            .select("*, products(*)")
             .eq("id", trackedProductId)
             .maybeSingle();
 
@@ -136,18 +136,30 @@ export const historyService = {
 
         const { data: latestPrice } = await supabase
             .from("price_history")
-            .select("price, stock_status")
+            .select("*")
             .eq("tracked_product_id", trackedProductId)
             .order("scraped_at", { ascending: false })
             .limit(1)
             .maybeSingle();
+
+        const { count: totalObservations } = await supabase
+            .from("price_history")
+            .select("*", { count: "exact", head: true })
+            .eq("tracked_product_id", trackedProductId);
 
         return {
             status: tracker.last_scrape_status,
             lastSuccessAt: tracker.last_success_at,
             lastFailureAt: tracker.last_failure_at,
             latestPrice: latestPrice ? Number(latestPrice.price) : null,
+            originalPrice: latestPrice?.original_price ? Number(latestPrice.original_price) : null,
+            discount: latestPrice?.discount_percentage ? Number(latestPrice.discount_percentage) : null,
             stockStatus: latestPrice ? latestPrice.stock_status : null,
+            stockQuantity: latestPrice?.stock != null ? Number(latestPrice.stock) : null,
+            lastScrapedAt: latestPrice?.scraped_at || null,
+            totalObservations: totalObservations || 0,
+            product: tracker.products || {},
+            tracking: tracker,
         };
     },
 };
