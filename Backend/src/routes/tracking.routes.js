@@ -15,6 +15,9 @@ router.post("/", trackingController.track);
 // DELETE /api/tracked-products/:id
 router.delete("/:id", validateIdParam("id"), trackingController.untrack);
 
+// PATCH /api/tracked-products/:id (update frequency/configuration)
+router.patch("/:id", validateIdParam("id"), trackingController.update);
+
 // Historical sub-routes on tracked-products
 // GET /api/tracked-products/:id/history
 router.get("/:id/history", validateIdParam("id"), historyController.getHistory);

@@ -48,6 +48,21 @@ export const trackingController = {
             next(error);
         }
     },
+
+    /**
+     * Update tracked product (e.g., scrapeIntervalMinutes)
+     * PATCH /api/tracked-products/:id
+     */
+    async update(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { scrapeIntervalMinutes } = req.body;
+            const updated = await trackingService.updateTracker(id, { scrapeIntervalMinutes });
+            return successResponse(res, { message: "Tracker updated successfully", trackedProduct: updated });
+        } catch (error) {
+            next(error);
+        }
+    },
 };
 
 export default trackingController;

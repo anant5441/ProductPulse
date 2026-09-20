@@ -158,6 +158,30 @@ export const trackingService = {
 
         return data;
     },
+
+    /**
+     * Update tracked product configuration (e.g. scrape frequency)
+     */
+    async updateTracker(trackedProductId, { scrapeIntervalMinutes }) {
+        const updates = { updated_at: new Date().toISOString() };
+        if (scrapeIntervalMinutes !== undefined) {
+            updates.scrape_interval_minutes = Math.max(parseInt(scrapeIntervalMinutes, 10) || 120, 5);
+        }
+
+        const { data, error } = await supabase
+            .from("tracked_products")
+            .update(updates)
+            .eq("id", trackedProductId)
+            .select()
+            .single();
+
+        if (error) {
+            logger.error(`Failed to update tracker ${trackedProductId}:`, error);
+            throw new Error(error.message);
+        }
+
+        return data;
+    },
 };
 
 export default trackingService;
