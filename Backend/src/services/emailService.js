@@ -27,7 +27,10 @@ export const emailService = {
 
         const msg = {
             to,
-            from: ENV.SENDGRID_FROM_EMAIL || "alerts@productpulse.com",
+            from: {
+                email: ENV.SENDGRID_FROM_EMAIL || "alerts@productpulse.com",
+                name: "ProductPulse Alerts",
+            },
             subject,
             text,
             html: html || text,

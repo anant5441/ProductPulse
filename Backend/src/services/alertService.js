@@ -158,27 +158,40 @@ export const alertService = {
                 const title = `🔻 Price dropped: ${productName}`;
                 const message = `${productName} dropped by ${formattedDrop} (${formattedPrev} → ${formattedCurr})`;
 
-                const emailSubject = `Price dropped: ${productName}`;
-                const emailText = `Price Drop Alert\n\n${productName}\n\nPrevious price: ${formattedPrev}\nCurrent price: ${formattedCurr}\nYou save: ${formattedDrop}\n\nOpen ProductPulse to view the latest price history.`;
+                const emailSubject = `Good news! Price dropped on ${productName}`;
+                const emailText = `Hi there,\n\nGreat news! The price of ${productName} has just dropped on the store.\n\n• New Price: ${formattedCurr}\n• Previous Price: ${formattedPrev}\n• Total Savings: ${formattedDrop}\n\nYou can view the full price history and details in your ProductPulse dashboard.\n\nBest regards,\nYour ProductPulse Team\n\n---\nYou are receiving this alert because you enabled price drop notifications on ProductPulse.`;
                 const emailHtml = `
-                    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 8px;">
-                        <h2 style="color: #0f172a; margin-top: 0;">🔻 Price Drop Alert</h2>
-                        <h3 style="color: #6C3BFF; margin-bottom: 16px;">${productName}</h3>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-                            <tr>
-                                <td style="padding: 8px 0; color: #64748b;">Previous price:</td>
-                                <td style="padding: 8px 0; font-weight: 600; text-decoration: line-through;">${formattedPrev}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px 0; color: #64748b;">Current price:</td>
-                                <td style="padding: 8px 0; font-weight: bold; color: #059669; font-size: 18px;">${formattedCurr}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px 0; color: #64748b;">You save:</td>
-                                <td style="padding: 8px 0; font-weight: bold; color: #059669;">${formattedDrop}</td>
-                            </tr>
-                        </table>
-                        <p style="color: #475569; font-size: 14px;">Open ProductPulse to view the latest price history and analytics.</p>
+                    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 28px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; color: #1e293b; line-height: 1.6;">
+                        <div style="margin-bottom: 20px;">
+                            <span style="display: inline-block; padding: 4px 12px; background-color: #fee2e2; color: #b91c1c; font-weight: 600; font-size: 12px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.5px;">🔻 Price Dropped</span>
+                        </div>
+                        <h2 style="color: #0f172a; margin: 0 0 12px 0; font-size: 20px; font-weight: 700;">Good news! The price has dropped</h2>
+                        <p style="color: #475569; font-size: 15px; margin: 0 0 20px 0;">
+                            We noticed that <strong>${productName}</strong> just became cheaper on the store.
+                        </p>
+                        <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin-bottom: 24px;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                                <tr>
+                                    <td style="padding: 6px 0; color: #64748b;">Previous Price:</td>
+                                    <td style="padding: 6px 0; font-weight: 500; text-align: right; text-decoration: line-through; color: #94a3b8;">${formattedPrev}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 6px 0; color: #0f172a; font-weight: 600;">Current Price:</td>
+                                    <td style="padding: 6px 0; font-weight: 700; text-align: right; color: #059669; font-size: 18px;">${formattedCurr}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 6px 0; color: #059669; font-weight: 600; border-top: 1px dashed #cbd5e1;">You Save:</td>
+                                    <td style="padding: 6px 0; font-weight: 700; text-align: right; color: #059669; border-top: 1px dashed #cbd5e1;">${formattedDrop}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p style="color: #64748b; font-size: 13px; margin: 0 0 20px 0;">
+                            Open your ProductPulse dashboard anytime to track historical trends, stock status, and price movements.
+                        </p>
+                        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0 16px 0;" />
+                        <p style="color: #94a3b8; font-size: 11px; margin: 0; text-align: center;">
+                            You received this automated notification because you enabled price drop alerts for this product on ProductPulse.
+                        </p>
                     </div>
                 `;
 
@@ -223,15 +236,36 @@ export const alertService = {
                 const title = `🟢 Back in stock: ${productName}`;
                 const message = `${productName} is now back in stock at ${formattedCurr}!`;
 
-                const emailSubject = `Back in stock: ${productName}`;
-                const emailText = `Back in Stock\n\n${productName} is now back in stock.\n\nCurrent price: ${formattedCurr}\n\nOpen ProductPulse to view the product.`;
+                const emailSubject = `Good news! ${productName} is back in stock`;
+                const emailText = `Hi there,\n\nGreat news! ${productName} is now back in stock and ready to order.\n\n• Current Price: ${formattedCurr}\n• Status: In Stock\n\nYou can view the product details directly in your ProductPulse dashboard.\n\nBest regards,\nYour ProductPulse Team\n\n---\nYou are receiving this alert because you enabled back-in-stock notifications on ProductPulse.`;
                 const emailHtml = `
-                    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 8px;">
-                        <h2 style="color: #059669; margin-top: 0;">🟢 Back in Stock</h2>
-                        <h3 style="color: #0f172a; margin-bottom: 16px;">${productName}</h3>
-                        <p style="color: #334155; font-size: 15px;">This item is now back in stock and available for purchase!</p>
-                        <p style="color: #0f172a; font-size: 18px; font-weight: bold; margin: 16px 0;">Current price: ${formattedCurr}</p>
-                        <p style="color: #475569; font-size: 14px;">Open ProductPulse to view the product details.</p>
+                    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 28px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; color: #1e293b; line-height: 1.6;">
+                        <div style="margin-bottom: 20px;">
+                            <span style="display: inline-block; padding: 4px 12px; background-color: #dcfce7; color: #15803d; font-weight: 600; font-size: 12px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.5px;">🟢 Back in Stock</span>
+                        </div>
+                        <h2 style="color: #0f172a; margin: 0 0 12px 0; font-size: 20px; font-weight: 700;">Good news! An item is back in stock</h2>
+                        <p style="color: #475569; font-size: 15px; margin: 0 0 20px 0;">
+                            <strong>${productName}</strong> is available again on the store!
+                        </p>
+                        <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin-bottom: 24px;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                                <tr>
+                                    <td style="padding: 6px 0; color: #64748b;">Current Price:</td>
+                                    <td style="padding: 6px 0; font-weight: 700; text-align: right; color: #0f172a; font-size: 18px;">${formattedCurr}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 6px 0; color: #64748b;">Availability:</td>
+                                    <td style="padding: 6px 0; font-weight: 600; text-align: right; color: #059669;">In Stock</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p style="color: #64748b; font-size: 13px; margin: 0 0 20px 0;">
+                            Open your ProductPulse dashboard anytime to track historical trends, stock status, and price movements.
+                        </p>
+                        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0 16px 0;" />
+                        <p style="color: #94a3b8; font-size: 11px; margin: 0; text-align: center;">
+                            You received this automated notification because you enabled back-in-stock alerts for this product on ProductPulse.
+                        </p>
                     </div>
                 `;
 
