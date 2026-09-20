@@ -1,4 +1,4 @@
-<![CDATA[# 🛍️ ProductPulse — Backend
+# 🛍️ ProductPulse — Backend
 
 > **Real-time product price & stock tracking engine** for the INE mock storefront.
 > Scrapes product data, detects price drops & restocks, and notifies you via in-app alerts and SendGrid email — all from one backend.
@@ -681,4 +681,3 @@ flowchart LR
 <p align="center">
   Built with ❤️ for ProductPulse
 </p>
-]]>
