@@ -1,5 +1,6 @@
 import supabase from "../config/supabase.js";
 import logService from "./log.service.js";
+import alertService from "./alertService.js";
 import { scrapeWithRetry } from "../scraper/retry.js";
 import { extractExternalId } from "../utils/normalize.js";
 import logger from "../utils/logger.js";
@@ -91,6 +92,15 @@ export const scrapeService = {
                 const product = scrapeOutcome.product;
                 const successfulAttempt = loggedAttempts.find((a) => a.status === "success") || loggedAttempts[loggedAttempts.length - 1];
 
+                // Fetch previous successful observation for alert evaluation (Section 5 & 6)
+                const { data: previousObservation } = await supabase
+                    .from("price_history")
+                    .select("price, original_price, discount_percentage, stock, stock_status, scraped_at")
+                    .eq("tracked_product_id", trackedProductId)
+                    .order("scraped_at", { ascending: false })
+                    .limit(1)
+                    .maybeSingle();
+
                 // Insert ONE validated row into price_history
                 const { error: priceErr } = await supabase.from("price_history").insert({
                     tracked_product_id: trackedProductId,
@@ -111,6 +121,22 @@ export const scrapeService = {
 
                 if (priceErr) {
                     logger.error("Failed to insert price_history:", priceErr);
+                }
+
+                // Evaluate price-drop & back-in-stock alerts (Section 10 & 31: non-blocking)
+                try {
+                    await alertService.evaluateAlerts({
+                        trackedProduct: tracker,
+                        previousObservation,
+                        currentObservation: {
+                            price: product.currentPrice,
+                            stock_status: product.stockStatus,
+                            stock: product.stockQuantity,
+                            scraped_at: product.scrapedAt || new Date().toISOString(),
+                        },
+                    });
+                } catch (alertErr) {
+                    logger.error("Alert evaluation encountered an error (scrape preserved):", alertErr);
                 }
 
                 // Update tracked product status to success

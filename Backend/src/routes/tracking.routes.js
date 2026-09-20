@@ -1,6 +1,7 @@
 import { Router } from "express";
 import trackingController from "../controllers/tracking.controller.js";
 import historyController from "../controllers/history.controller.js";
+import alertController from "../controllers/alert.controller.js";
 import { validateIdParam } from "../middleware/validation.middleware.js";
 
 const router = Router();
@@ -29,5 +30,12 @@ router.get("/:id/scrape-logs", validateIdParam("id"), historyController.getScrap
 
 // GET /api/tracked-products/:id/status
 router.get("/:id/status", validateIdParam("id"), historyController.getStatus);
+
+// Alert preferences sub-routes on tracked-products (Section 22)
+// GET /api/tracked-products/:id/alerts
+router.get("/:id/alerts", validateIdParam("id"), alertController.getPreferences);
+
+// PUT /api/tracked-products/:id/alerts
+router.put("/:id/alerts", validateIdParam("id"), alertController.updatePreferences);
 
 export default router;

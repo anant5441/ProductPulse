@@ -67,4 +67,26 @@ export const scrapeApi = {
   runDue: (force = false) => request(`/scheduler/run-due${force ? '?force=true' : ''}`, { method: 'POST' }, 60000),
 };
 
-export default { healthApi, productsApi, trackingApi, historyApi, scrapeApi };
+export const alertsApi = {
+  getPreferences: (trackingId) => request(`/tracked-products/${trackingId}/alerts`),
+  updatePreferences: (trackingId, data) =>
+    request(`/tracked-products/${trackingId}/alerts`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
+};
+
+export const notificationsApi = {
+  list: (params = {}) => {
+    const qs = new URLSearchParams();
+    if (params.limit) qs.set('limit', params.limit);
+    if (params.offset) qs.set('offset', params.offset);
+    if (params.unread) qs.set('unread', 'true');
+    return request(`/notifications?${qs.toString()}`);
+  },
+  markAsRead: (id) => request(`/notifications/${id}/read`, { method: 'PATCH' }),
+  markAllAsRead: () => request('/notifications/read-all', { method: 'PATCH' }),
+};
+
+export default { healthApi, productsApi, trackingApi, historyApi, scrapeApi, alertsApi, notificationsApi };
+

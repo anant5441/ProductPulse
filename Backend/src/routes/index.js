@@ -5,6 +5,7 @@ import trackingRoutes from "./tracking.routes.js";
 import scrapeRoutes from "./scrape.routes.js";
 import schedulerRoutes from "./scheduler.routes.js";
 import historyRoutes from "./history.routes.js";
+import notificationRoutes from "./notification.routes.js";
 
 const router = Router();
 
@@ -16,6 +17,9 @@ router.use("/products", productRoutes);
 
 // /api/tracked-products
 router.use("/tracked-products", trackingRoutes);
+
+// /api/notifications (Section 20)
+router.use("/notifications", notificationRoutes);
 
 // /api/scheduler
 router.use("/scheduler", schedulerRoutes);
